@@ -387,6 +387,16 @@ class Code128Test < Barby::TestCase
         barcode.type.must_equal 'B'
       end
     end
+
+    describe "when in codeset C" do
+      it "switches to codeset A when a symbology element occurs before any lowercase character" do
+        data = "01020\001FOO"
+
+        barcode = Code128.new data
+
+        barcode.full_data_with_change_codes.must_equal "#{CODEC}0102#{CODEA}0\001FOO"
+      end
+    end
   end
 
   describe "Code128 automatic charset" do
