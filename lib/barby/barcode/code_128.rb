@@ -172,19 +172,19 @@ module Barby
 
 
     def initialize(data, type=nil)
-      if type
-        self.type = type
-      else
-        if data =~ /^\d{2}$/ || data =~ /^\d{4,}/
-          self.type = 'C'
-        elsif self.class.control_before_lowercase?(data)
-          self.type = 'A'
-        else
-          self.type = 'B'
-        end
-      end
+      self.type = type ? type : determine_start_character(data)
       self.data = "#{data}"
       raise ArgumentError, 'Data not valid' unless valid?
+    end
+
+    def determine_start_character(data)
+      if data =~ /^\d{2}$/ || data =~ /^\d{4,}/
+        'C'
+      elsif self.class.control_before_lowercase?(data)
+        'A'
+      else
+        'B'
+      end
     end
 
 
