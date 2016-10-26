@@ -177,6 +177,8 @@ module Barby
       else
         if data =~ /^\d{2}$/
           self.type = 'C'
+        elsif self.class.control_before_lowercase?(data)
+          self.type = 'A'
         else
           self.type = 'B'
         end
@@ -450,6 +452,13 @@ module Barby
         [type, data]
       end
 
+      def control_before_lowercase?(str)
+        ctrl = str =~ CTRL_RE
+        char = str =~ LOWR_RE
+
+        ctrl && (!char || ctrl < char)
+      end
+
 
     private
 
@@ -537,12 +546,6 @@ module Barby
       #
       #Returns true only if it contains a control character and a lower case
       #character doesn't appear before it.
-      def control_before_lowercase?(str)
-        ctrl = str =~ CTRL_RE
-        char = str =~ LOWR_RE
-
-        ctrl && (!char || ctrl < char)
-      end
 
 
 
