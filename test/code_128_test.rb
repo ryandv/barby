@@ -394,7 +394,7 @@ class Code128Test < Barby::TestCase
 
         barcode = Code128.new data
 
-        barcode.full_data_with_change_codes.must_equal "#{CODEC}0102#{CODEA}0\001FOO"
+        barcode.full_data_with_change_codes.must_equal "0102#{CODEA}0\001FOO"
       end
     end
   end

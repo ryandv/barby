@@ -176,9 +176,8 @@ module Barby
         self.type = type
         self.data = "#{data}"
       else
-        self.type = type ? type : determine_start_character(data)
+        self.type = determine_start_character(data)
         self.data = insert_change_characters(self.type, data)
-        puts "self.data: #{self.data}"
       end
       raise ArgumentError, 'Data not valid' unless valid?
     end
@@ -202,7 +201,11 @@ module Barby
         when 'C'
           acc, remaining_data = something_codeset_c(remaining_data)
           current_codeset = determine_start_character(remaining_data)
-          return "#{acc}"
+          if remaining_data.length > 0
+            return "#{acc}#{CODEA}#{remaining_data}"
+          else
+            return acc
+          end
         when 'B'
           return data
         when 'A'
@@ -218,7 +221,7 @@ module Barby
 
       remaining_data = data.sub(/^#{digits}/, "")
 
-      ["#{CODEC}#{digits}", remaining_data]
+      [digits, remaining_data]
     end
 
     def type=(type)
@@ -415,8 +418,6 @@ module Barby
     #and checks if it exists in the character set. An empty data string
     #will also be reported as invalid.
     def valid?
-      puts "chars: #{characters.join}"
-      puts "type: #{type}"
       characters.any? && characters.all?{|c| values.include?(c) }
     end
 
