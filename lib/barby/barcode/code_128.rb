@@ -175,7 +175,7 @@ module Barby
       if type
         self.type = type
       else
-        if data =~ /^\d{2}$/
+        if data =~ /^\d{2}$/ || data =~ /^\d{4,}/
           self.type = 'C'
         elsif self.class.control_before_lowercase?(data)
           self.type = 'A'

@@ -363,6 +363,14 @@ class Code128Test < Barby::TestCase
         barcode.type.must_equal 'C'
       end
 
+      it "uses codeset C when the data begins with four or more digits" do
+        data = "0102"
+
+        barcode = Code128.new data
+
+        barcode.type.must_equal 'C'
+      end
+
       it "uses codeset A when a symbology element occurs before any lowercase character" do
         data = "\001FOO"
 
