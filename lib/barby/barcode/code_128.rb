@@ -174,10 +174,14 @@ module Barby
     def initialize(data, type=nil)
       if type
         self.type = type
-        self.data = "#{data}"
       else
-        self.type, self.data = self.class.determine_best_type_for_data("#{data}")
+        if data =~ /^\d{2}$/
+          self.type = 'C'
+        else
+          self.type = 'B'
+        end
       end
+      self.data = "#{data}"
       raise ArgumentError, 'Data not valid' unless valid?
     end
 

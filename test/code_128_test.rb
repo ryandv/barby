@@ -353,7 +353,25 @@ class Code128Test < Barby::TestCase
 
   end
 
+  describe "minimization of symbol length" do
+    describe "correctly determines the start character" do
+      it "uses codeset C when the data consists of only two digits" do
+        data = "01"
 
+        barcode = Code128.new data
+
+        barcode.type.must_equal 'C'
+      end
+
+      it "uses codeset B otherwise" do
+        data = "foobar"
+
+        barcode = Code128.new data
+
+        barcode.type.must_equal 'B'
+      end
+    end
+  end
 
   describe "Code128 automatic charset" do
 
@@ -394,8 +412,6 @@ class Code128Test < Barby::TestCase
     end
 
   end
-
-
 
   private
 
